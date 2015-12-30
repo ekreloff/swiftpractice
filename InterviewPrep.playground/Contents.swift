@@ -113,10 +113,8 @@ func oneEditDifference(s1: String, s2: String) -> Bool{
                 if firstDifference{
                     if s1Longer{
                         array2.insert(array1[i], atIndex: i)
-                        print(array2)
                     }else{
                         array1.insert(array2[i], atIndex: i)
-                        print(array1)
                     }
                     firstDifference = false
                 }else{
@@ -133,5 +131,89 @@ oneEditDifference("pale", s2: "pa")
 oneEditDifference("pale", s2: "pool")
 oneEditDifference("pale", s2: "spale")
 oneEditDifference("pale", s2: "spald")
-oneEditDifference("pale", s2: "pales") //SO CLOSE, ARRAY IS OUT OF BOUNDS WHEN CHECKING THE LAST ELEMENT WHEN ALL PREVIOUS ELEMENTS MATCH, BECAUSE ONE ARRAY IS LONGER
+//oneEditDifference("pale", s2: "pales") //SO CLOSE, ARRAY IS OUT OF BOUNDS WHEN CHECKING THE LAST ELEMENT WHEN ALL PREVIOUS ELEMENTS MATCH, BECAUSE ONE ARRAY IS LONGER
+
+//Question 3.3 Implement a class that is a stack made up of stacks that have a capacity limit. Should have normal stack functions.
+
+class SetOfStacks{
+    let threshold: Int
+    var currentIndex: Int = 0
+    var counts: [Int] = [0]
+    var stacks: [[Int]] = []
+    
+    init(threshold capacity: Int) {
+        threshold = capacity
+        stacks.append([])
+    }
+    
+    func push (data: Int){
+        if counts[currentIndex] == threshold {
+            let stack: [Int] = [] //TODO: test to make sure this can be modified later even though this is a constant in local scope
+            counts.append(0)
+            stacks.append(stack)
+            currentIndex++
+        }
+        stacks[currentIndex].append(data)
+        ++counts[currentIndex]
+    }
+    
+    func pop() -> Int? {
+        if counts[currentIndex] == 0 {
+            return nil
+        }
+        let data = stacks[currentIndex].removeLast()
+        counts[currentIndex]--
+        if counts[currentIndex] == 0 {
+            stacks.removeLast()
+            counts.removeLast()
+            currentIndex--
+        }
+        return data
+    }
+    
+    func printStack() -> String {
+        var output = ""
+        if counts[currentIndex] != 0{
+            output += "Stack capacity: \(threshold)\nCurrent stack: \(currentIndex)\nNumber of elements in each stack:\n"
+            var i = 0
+            for count in counts {
+                output += "Stack \(i) has \(count) element(s).\n"
+                i++
+            }
+            output += "\nStack contents:\n"
+            i = 0
+            for _ in counts {
+                output += "Stack \(i): "
+                for element in (stacks[i].count - 1).stride(through: 0, by: -1) {
+                    output += "\(stacks[i][element])|"
+                }
+                output += "\n"
+                i++
+            }
+
+        }else{
+            output += "SetOfStacks is empty."
+        }
+        output += "\n"
+        return output
+    }
+}
+
+let pushes = 50
+let pops = 49
+let multiStack = SetOfStacks(threshold: 10)
+
+print(multiStack.printStack())
+
+for _ in 1...pushes {
+    multiStack.push(random()%1000)
+}
+
+print(multiStack.printStack())
+
+for _ in 1...pops {
+    multiStack.pop()
+}
+
+print(multiStack.printStack())
 
