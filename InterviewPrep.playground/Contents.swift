@@ -162,11 +162,11 @@ class SetOfStacks{
             return nil
         }
         let data = stacks[currentIndex].removeLast()
-        counts[currentIndex]--
-        if counts[currentIndex] == 0 {
+        --counts[currentIndex]
+        if counts[currentIndex] == 0 && currentIndex > 0 {
             stacks.removeLast()
-            counts.removeLast()
             currentIndex--
+            counts.removeLast()
         }
         return data
     }
@@ -200,20 +200,18 @@ class SetOfStacks{
 }
 
 let pushes = 50
-let pops = 49
+let pops = 51
 let multiStack = SetOfStacks(threshold: 10)
 
 print(multiStack.printStack())
-
-for _ in 1...pushes {
+multiStack.pop()
+for push in 1...pushes {
     multiStack.push(random()%1000)
+    print("Push number \(push):\n\(multiStack.printStack())")
 }
-
-print(multiStack.printStack())
-
-for _ in 1...pops {
+for pop in 1...pops {
     multiStack.pop()
+    print("Push number \(pop):\n\(multiStack.printStack())")
 }
-
+multiStack.push(20)
 print(multiStack.printStack())
-
