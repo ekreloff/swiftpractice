@@ -148,7 +148,7 @@ class SetOfStacks{
     
     func push (data: Int){
         if counts[currentIndex] == threshold {
-            let stack: [Int] = [] //TODO: test to make sure this can be modified later even though this is a constant in local scope
+            let stack: [Int] = []
             counts.append(0)
             stacks.append(stack)
             currentIndex++
@@ -199,9 +199,9 @@ class SetOfStacks{
     }
 }
 
-let pushes = 50
-let pops = 51
-let multiStack = SetOfStacks(threshold: 10)
+let pushes = 500
+let pops = 500
+let multiStack = SetOfStacks(threshold: 25)
 
 print(multiStack.printStack())
 multiStack.pop()
@@ -211,7 +211,7 @@ for push in 1...pushes {
 }
 for pop in 1...pops {
     multiStack.pop()
-    print("Push number \(pop):\n\(multiStack.printStack())")
+    print("Pop number \(pop):\n\(multiStack.printStack())")
 }
 multiStack.push(20)
 print(multiStack.printStack())
