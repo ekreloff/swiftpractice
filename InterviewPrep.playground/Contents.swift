@@ -199,9 +199,9 @@ class SetOfStacks{
     }
 }
 
-let pushes = 500
-let pops = 500
-let multiStack = SetOfStacks(threshold: 25)
+let pushes = 50
+let pops = 50
+let multiStack = SetOfStacks(threshold: 5)
 
 print(multiStack.printStack())
 multiStack.pop()
@@ -215,3 +215,84 @@ for pop in 1...pops {
 }
 multiStack.push(20)
 print(multiStack.printStack())
+
+//Question 4.2 Given a sorted array with unique elements return a binary search tree with minimal height
+
+class BinaryNode {
+    var data: Int
+    var leftChild: BinaryNode? = nil
+    var rightChild: BinaryNode? = nil
+    
+    init(data number: Int){
+        data = number
+    }
+    
+    class func DFSPrint(node: BinaryNode?){
+        if node == nil {
+            return
+        }
+        
+        print(node!.data)
+        DFSPrint(node?.leftChild)
+        DFSPrint(node?.rightChild)
+        return
+    }
+}
+
+func sortedArrayToBST(var array: [Int]) -> BinaryNode? {
+    if array.count == 0 {
+        return nil
+    }
+    
+    if array.count == 1 {
+        return BinaryNode(data: array.last!)
+    }
+    
+    let midpoint = array.removeAtIndex(array.count/2)
+    let node = BinaryNode(data: midpoint)
+    var leftArray: [Int] = []
+    var rightArray: [Int] = []
+    for i in 0...((array.count - 1)/2) {
+        leftArray.append(array[i])
+    }
+    
+    if array.count > 1 {
+        for i in ((array.count - 1)/2 + 1)...(array.count - 1){
+            rightArray.append(array[i])
+        }
+    }
+    
+    
+    print(leftArray)
+    print("\(rightArray)\n")
+    node.leftChild = sortedArrayToBST(leftArray)
+    node.rightChild = sortedArrayToBST(rightArray)
+    return node
+}
+
+
+let testArray: [Int] = []
+let testArray1 = [1]
+let testArray2 = [1, 2]
+let testArray3 = [1, 2, 3]
+let testArray4 = [1, 2, 3, 4]
+let testArray5 = [1, 2, 3, 4, 5, 6]
+let testRootNode = sortedArrayToBST(testArray)
+let testRootNode1 = sortedArrayToBST(testArray1)
+let testRootNode2 = sortedArrayToBST(testArray2)
+let testRootNode3 = sortedArrayToBST(testArray3)
+let testRootNode4 = sortedArrayToBST(testArray4)
+let testRootNode5 = sortedArrayToBST(testArray5)
+
+BinaryNode.DFSPrint(testRootNode)
+print("")
+BinaryNode.DFSPrint(testRootNode1)
+print("")
+BinaryNode.DFSPrint(testRootNode2)
+print("")
+BinaryNode.DFSPrint(testRootNode3)
+print("")
+BinaryNode.DFSPrint(testRootNode4)
+print("")
+BinaryNode.DFSPrint(testRootNode5)
+print("")
